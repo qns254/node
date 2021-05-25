@@ -6,6 +6,10 @@ const dotenv = require('dotenv');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const { sequelize } = require("./models");
+
+/**라우터**/
+const memberRouter = require('./routes/member');
 
 dotenv.config();
 
@@ -16,6 +20,15 @@ nunjucks.configure("views", {
 	express : app,
 	watch : true,
 });
+
+/**db 연결 **/
+sequelize.sync({ force : false })
+          .then(() => {
+			   console.log("데이터베이스 연결 성공 !");
+		  })
+		  .catch((err) => {
+			 console.error(err); 
+		  });
 
 app.use(morgan('dev'));
 app.use(methodOverride("_method"));
@@ -33,6 +46,10 @@ app.use(session({
 	 name : 'gwsession',
 }));
 
+//**라우터 등록**/
+app.use("/member", memberRouter);
+
+
 // 없는 페이지 처리 미들웨어(라우터)
 app.use((req, res, next) => {
 	const error = new Error(`${req.method} ${req.url}은 없는 페이지 입니다.`);
@@ -47,5 +64,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(app.get('port'), () => {
-	console.log(app.get('port'), '번 포트에서 대기중');
+	console.log(app.get('port'), '번 포트에서 대기중@@@');
 });
