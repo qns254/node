@@ -14,6 +14,7 @@ router.route("/join")
 		.post(joinValidator, async (req, res, next) => {
 			try {
 				const result = await member.join(req.body.memId, req.body.memPw);
+				
 				if (result) { // 성공 
 					return go("/member/login", res, "parent");
 				} 
