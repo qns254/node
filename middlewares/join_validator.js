@@ -3,7 +3,7 @@ const { alert } = require('../lib/common');
 /**
 회원가입 유효성 검사
 **/
-module.exports.joinVaildator = function (req, res, next) => {
+module.exports.joinValidator = (req, res, next) => {
 	//req.body.memId, req.body.memPw
 	if (!req.body.memId) {
      
