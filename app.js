@@ -7,10 +7,11 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const { sequelize } = require("./models");
+const { loginSession } = require('./middlewares/login_session');
 
 /**라우터**/
 const memberRouter = require('./routes/member');
-
+const adminRouter = require('./routes/admin');
 dotenv.config();
 
 const app = express();
@@ -37,18 +38,19 @@ app.use(express.urlencoded({ extended : false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(process.env.COOKIE_SECRET));//쿠키설정
 app.use(session({
-	 resave: false,
-	 saveUninitalized : true,
-	 cookie : {
-		httpOnly : true, 
-		 secure : false,
-	 },
-	 name : 'gwsession',
+	resave: false,
+	saveUninitialized : true,
+	cookie : {
+		httpOnly : true,
+		secure : false,
+	},
+	name : 'gwsession',
 }));
+app.use(loginSession);
 
 //**라우터 등록**/
 app.use("/member", memberRouter);
-
+app.use("/admin", adminRouter);
 
 // 없는 페이지 처리 미들웨어(라우터)
 app.use((req, res, next) => {
