@@ -29,6 +29,7 @@ $(function() {
 		frmUpload.submit();
 	});
 	
+	
 	/** 주소 검색 */
 	$(".search_address").click(function() {
 		 new daum.Postcode({
