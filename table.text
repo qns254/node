@@ -10,3 +10,5 @@ CREATE TABLE `pgw_member` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDBqnsdlrh8
+
+..1111

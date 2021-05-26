@@ -9,9 +9,12 @@ const session = require('express-session');
 const { sequelize } = require("./models");
 const { loginSession } = require('./middlewares/login_session');
 
-/**라우터**/
+
+/** 라우터 */
 const memberRouter = require('./routes/member');
 const adminRouter = require('./routes/admin');
+const uploadRouter = require('./routes/upload');
+
 dotenv.config();
 
 const app = express();
@@ -22,21 +25,21 @@ nunjucks.configure("views", {
 	watch : true,
 });
 
-/**db 연결 **/
+/** DB 연결 */
 sequelize.sync({ force : false })
-          .then(() => {
-			   console.log("데이터베이스 연결 성공 !");
-		  })
-		  .catch((err) => {
-			 console.error(err); 
-		  });
+			.then(() => {
+				console.log("데이터베이스 연결 성공!");
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 
 app.use(morgan('dev'));
 app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cookieParser(process.env.COOKIE_SECRET));//쿠키설정
+app.use(cookieParser(process.env.COOKIE_SECRET)); // 쿠기 설정 
 app.use(session({
 	resave: false,
 	saveUninitialized : true,
@@ -44,13 +47,15 @@ app.use(session({
 		httpOnly : true,
 		secure : false,
 	},
-	name : 'gwsession',
+	name : 'yhsession',
 }));
+
 app.use(loginSession);
 
-//**라우터 등록**/
+/** 라우터 등록 */
 app.use("/member", memberRouter);
 app.use("/admin", adminRouter);
+app.use("/upload", uploadRouter);
 
 // 없는 페이지 처리 미들웨어(라우터)
 app.use((req, res, next) => {
@@ -66,5 +71,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(app.get('port'), () => {
-	console.log(app.get('port'), '번 포트에서 대기중@@@');
+	console.log(app.get('port'), '번 포트에서 대기중@@@@');
 });
