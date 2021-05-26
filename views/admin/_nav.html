@@ -1,52 +1,56 @@
-<form method='post' action='/admin/profile' target='ifrmHidden' autocomplete='off'>
-	<section class='box resume_title'>
-		<input type='text' name='resumeTitle' placeholder='기업에게 나에 대해 알려줍시다. 강점, 목표, 관심분야도 좋아요.'>
-	</section>
-	
-	<section class='section basic_info'>
-		<div class='tit'>인적사항</div>
-		<div class='required_tit'>필수 입력 정보입니다.</div>
-		<div class='inner'>
-			<div class='box box1'>
-				<div class='input_box'>
-					<div class='guide_tit'>이름</div>
-					<input type='text' name='name'>
-				</div>
-				<div class='input_box'>
-					<div class='guide_tit'>생년월일</div>
-					<input type='text' name='birthDate'>
-				</div>
-				<div class='input_box'>
-					<div class='guide_tit'>전화번호</div>
-					<input type='text' name='landline'>
-				</div>
-				<div class='input_box'>
-					<div class='guide_tit'>휴대폰번호</div>
-					<input type='text' name='cellPhone'>
-				</div>
-			</div>
-			<div class='box box2'>
-				<div class='input_box gender'>
-					<div class='guide_tit'>성별</div>
-					<input type='text' name='gender'>
-				</div>
-				<div class='input_box email'>
-					<div class='guide_tit'>이메일</div>
-					<input type='email' name='email'>
-				</div>
-				<div class='input_box address'>
-					<div class='guide_tit'>주소</div>
-					<input type='text' name='address'>
-					<i class='xi-search search_address'></i>
-				</div>
-			</div>
-			<div class='box box3'>
-				<div class='photo_upload' onclick="layer.popup('/upload', 450, 450);">
-					<i class='xi-plus-circle-o icon'></i>
-					<div class='t'>사진추가</div>
-				</div>
-			</div>
-		</div>
-		<!--// inner -->
-	</section>	
-</form>
+<div class='floating_box'>
+	<div class='selection_box'>
+		<div class='tit'>이력서 항목</div>
+		<ul>
+			<li>
+				<input type='checkbox' name='items' id='selection_items1' value='학력'>
+				<label for='selection_items1'>학력</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items2' value='경력'>
+				<label for='selection_items2'>경력</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items3' value='인턴'>
+				<label for='selection_items3'>인턴·대외활동</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items4' value='교육이수'>
+				<label for='selection_items4'>교육이수</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items5' value='자격증'>
+				<label for='selection_items5'>자격증</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items6' value='수상'>
+				<label for='selection_items6'>수상</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items7' value='해외경험'>
+				<label for='selection_items7'>해외경험</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items8' value='어학'>
+				<label for='selection_items8'>어학</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items9' value='포트폴리오'>
+				<label for='selection_items9'>포트폴리오</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items10' value='병역'>
+				<label for='selection_items10'>취업우대 • 병역</label>
+			</li>
+			<li>
+				<input type='checkbox' name='items' id='selection_items11' value='자기소개서'>
+				<label for='selection_items11'>자기소개서</label>
+			</li>
+		</ul>
+	</div>
+	<div class='btns'>
+		<a href='/' target='_blank' class='btn'>미리보기</a>
+		<div class='btn save'>이력저저장</div>
+	</div>
+</div>
+<!--// floating_box -->
