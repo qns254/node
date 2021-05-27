@@ -90,25 +90,56 @@ const resume = {
 				});
 			}
 			// school 학력 처리 E 
-				// 경력처리
-				sql = 'TRUNCATE jobhistory';
-				await sequelize.query(sql, { type : QueryTypes.DELETE });
-				if (params.items && params.items.indexOf("경력") != -1) {
-				  if(!(params.jhCompany instanceof Array)) {
-					  params.jhCompany = [params.jhCompany];
-					  params.jhDept = [params.jhDept];
-					  params.jhStartDate =[params.jhStartDate];
-					  params.jhEndDate =[params.jhEndDate];
-					  params.jhInOffice =[params.jhInOffice];
-				      params.jhPosition =[params.jhPosition];
-					  params.jhTask =[params.jhTask];
-					  params.jhSalary =[params.jhSalary];
-					  params.jhWork =[params.jhWork];
-				  }
-				console.log(params);
+			
+			// jobhistory 경력 처리 S 
+			sql = 'TRUNCATE jobhistory';
+			await sequelize.query(sql, { type : QueryTypes.DELETE });
+			if (params.items && params.items.indexOf('경력') != -1) {
+				if (!(params.jhCompany instanceof Array)) {
+					params.jhCompany = [params.jhCompany];
+					params.jhDept = [params.jhDept];
+					params.jhStartDate = [params.jhStartDate];
+					params.jhEndDate = [params.jhEndDate];
+					params.jhInOffice = [params.jhInOffice];
+					params.jhPosition = [params.jhPosition];
+					params.jhTask = [params.jhTask];
+					params.jhSalary = [params.jhSalary];
+					params.jhWork = [params.jhWork];
 				}
 				
-				//경력처리끝
+				params.jhCompany.forEach(async (company, index) => {
+					const sql = `INSERT INTO jobhistory (company, dept, startDate, endDate, position, task, salary, work, inOffice)
+										VALUES (:company, :dept, :startDate, :endDate, :position, :task, :salary, :work, :inOffice)`;
+					
+					const replacements = {
+							company : company,
+							dept : params.jhDept[index],
+							startDate : params.jhStartDate[index],
+							endDate : params.jhEndDate[index],
+							position : params.jhPosition[index],
+							task : params.jhTask[index],
+							salary : params.jhSalary[index],
+							work : params.jhWork[index],
+							inOffice : 0,
+					};
+					
+					await sequelize.query(sql, {
+						replacements, 
+						type : QueryTypes.INSERT,
+					});
+				});
+				
+			}
+			// jobhistory 경력 처리 E 
+			
+			// intern 인턴 및 대외활동 처리 S 
+			sql = 'TRUNCATE intern';
+			await sequelize.query(sql, { type : QueryTypes.DELETE });
+			if (params.items && params.items.indexOf('인턴') != -1) {
+				
+			}
+			
+			// intern 인턴 및 대외활동 처리 E
 			
 			return true;
 		} catch (err) {
