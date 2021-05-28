@@ -1,4 +1,8 @@
 const { sequelize, Sequelize : { QueryTypes } } = require('./index');
+const fs = require('fs').promises;
+const contants = require('fs').constants;
+const path = require('path');
+
 /**
 * 이력서 Model
 *
@@ -368,7 +372,59 @@ const resume = {
 			console.error(err);
 			return false;
 		}
-	}
+	},
+	/**
+	* 저장된 이력서 데이터 
+	*
+	*/
+	get : async function() {
+		const tables = [
+			'basicinfo',
+			'award', 
+			'education',
+			'intern',
+			'introduction',
+			'jobhistory',
+			'language',
+			'license',
+			'overseas',
+			'portfolio',
+			'school',
+		];
+		
+		const data = {};
+		try {
+			for (let i = 0; i < tables.length; i++) {
+				table = tables[i];
+				let sql = "SELECT * FROM " + table;
+				if (table != 'basicinfo') {
+					sql += " ORDER BY idx";
+				}
+				
+				const rows = await sequelize.query(sql, {
+					type : QueryTypes.SELECT,
+				});
+				
+				if (table == 'basicinfo') { // 기본 인적사항 -> 레코드 1개
+					data[table] = rows[0];
+					data[table].benefit = data[table].benefit?data[table].benefit.split("||"):[];
+					
+				} else { // 나머지는 레코드 여러개 
+					data[table] = rows;
+				}
+			}
+		} catch (err) {
+			return {};
+		}
+		
+		/* 프로필 이미지 */
+		try {
+			await fs.access(path.join(__dirname, "../public/profile/profile"), contants.F_OK);
+			data['profile'] = "/profile/profile";
+		} catch (err) {}
+		
+		return data;
+	},
 };
 
 module.exports = resume;
